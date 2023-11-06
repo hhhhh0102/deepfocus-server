@@ -1,0 +1,22 @@
+services:
+  mongodb:
+    image: mongo
+    container_name: deepfocus-mongodb
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DFC_MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DFC_MONGO_PASSWORD}
+  postgres:
+    image: bitnami/postgresql:13
+    container_name: deepfocus-postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${DFC_POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${DFC_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${DFC_POSTGRES_DB}
+    volumes:
+      - ./app/src/test/resources/deepfocus_db-init.sql:/docker-entrypoint-initdb.d/init.sql
