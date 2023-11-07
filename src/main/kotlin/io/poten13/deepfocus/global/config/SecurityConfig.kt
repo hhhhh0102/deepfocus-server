@@ -2,6 +2,7 @@ package io.poten13.deepfocus.global.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
@@ -19,6 +20,7 @@ class SecurityConfig {
                 authorize
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                     .antMatchers("/actuator/health").permitAll()
+                    .antMatchers(HttpMethod.POST, "/api/v1/users").permitAll()
                     .antMatchers(*SWAGGER_URL).permitAll()
                     .anyRequest().authenticated()
             }
