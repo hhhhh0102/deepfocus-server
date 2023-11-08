@@ -23,7 +23,7 @@ class TokenAuthenticationFilter(
         request.getHeader(USER_TOKEN_HEADER_KEY)?.takeIf { it.isNotBlank() }
             ?.let(userReader::readBy)
             ?.let { user ->
-                val authentication = UsernamePasswordAuthenticationToken(user, null)
+                val authentication = UsernamePasswordAuthenticationToken(user.userToken, null, user.roleType.authorities)
                 SecurityContextHolder.getContext().authentication = authentication
                 chain.doFilter(request, response)
             } ?: response.unauthorized()
@@ -31,5 +31,15 @@ class TokenAuthenticationFilter(
 
     private fun HttpServletResponse.unauthorized() {
         sendError(HttpServletResponse.SC_UNAUTHORIZED, "User not authorized.")
+    }
+
+    override fun shouldNotFilter(request: HttpServletRequest): Boolean {
+        val servletPath = request.servletPath
+        val startsWith = servletPath.startsWith("/swagger-ui") ||
+                servletPath.startsWith("/v3/api-docs/swagger-config") ||
+                servletPath == "/v3/api-docs" ||
+                servletPath.startsWith("/actuator") ||
+                (servletPath == "/api/v1/users" && request.method == "POST")
+        return startsWith
     }
 }
