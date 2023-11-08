@@ -8,3 +8,6 @@ spring:
         show_sql: true
     open-in-view: false
     database: postgresql
+logging:
+  level:
+    org.springframework.security: DEBUG

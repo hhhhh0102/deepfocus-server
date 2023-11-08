@@ -4,6 +4,7 @@ import io.poten13.deepfocus.domain.user.service.UserService
 import io.poten13.deepfocus.global.dto.ApiResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -21,4 +22,7 @@ class UserController(
         val user = userService.save(request.deviceToken)
         return ApiResponse.ok(CreateUserResponse(user.userToken))
     }
+
+    @GetMapping("/test")
+    fun testForAuthCheck() = ApiResponse.success(null)
 }
