@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -20,16 +21,9 @@ class UserController(
     private val userService: UserService
 ) {
 
-    @Operation(summary = "사용자 추가", description = "device token 으로 사용자를 추가합니다")
-    @PostMapping
-    fun createUser(request: CreateUserRequest): ApiResponse<CreateUserResponse> {
-        val user = userService.save(request.deviceToken)
-        return ApiResponse.ok(CreateUserResponse(user.userToken))
-    }
-
     @Operation(summary = "로그인", description = "device token 으로 로그인 (deviceToken 으로 조회 되는 사용자가 없는 경우 강제 회원가입 처리)")
     @PostMapping("/login")
-    fun login(request: LoginRequest): ApiResponse<LoginResponse> {
+    fun login(@RequestBody request: LoginRequest): ApiResponse<LoginResponse> {
         var isNew = false
         val user = userService.readBy(request.deviceToken) ?: let {
             isNew = true
