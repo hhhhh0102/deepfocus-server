@@ -4,4 +4,5 @@ object Constants {
     const val NICKNAME_RESPONSE_FORMAT = "text"
     const val REQUIRED_NICKNAME_COUNT = 1
     const val MAX_NICKNAME_LENGTH = 6
+    const val USER_TOKEN_HEADER_KEY = "X-User-Token"
 }

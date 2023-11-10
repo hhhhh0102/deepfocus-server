@@ -1,5 +1,8 @@
 package io.poten13.deepfocus.global.dto
 
+import com.fasterxml.jackson.annotation.JsonInclude
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 class ApiResponse<T>(
     val status: Int,
     val message: String,
